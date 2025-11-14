@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us - Clothify Shop</title>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<style>
+  /* ===== General Reset ===== */
+  * { margin:0; padding:0; box-sizing:border-box; font-family: 'Poppins', sans-serif; }
+
+  body {
+    background: linear-gradient(135deg, #f04c23, #ff7675, #6c5ce7);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    min-height: 100vh;
+  }
+
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* ===== Header ===== */
+  #header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top:0;
+    z-index: 100;
+  }
+
+  #navbar { list-style:none; display:flex; gap:25px; }
+  #navbar li a { color:white; text-decoration:none; font-weight:bold; padding:8px 15px; border-radius:5px; transition:0.3s; }
+  #navbar li a:hover, #navbar li a.active { background:#f04c23; }
+
+  /* ===== About Section ===== */
+  #about {
+    max-width: 900px;
+    margin: 80px auto;
+    padding: 40px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    color:#fff;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    animation: fadeIn 1s ease forwards;
+    opacity:0;
+  }
+
+  #about h2 { color:#fff; margin-bottom: 20px; font-size: 32px; text-align:center; }
+  #about h3 { margin: 25px 0 10px; font-size: 22px; }
+  #about p, #about ul { margin-bottom: 15px; font-size:16px; line-height:1.6; }
+  #about ul li { margin-left: 20px; }
+
+  /* Fade in animation */
+  @keyframes fadeIn { 0% { opacity:0; transform:translateY(20px); } 100% { opacity:1; transform:translateY(0); } }
+
+  /* ===== Feature Cards ===== */
+  #feature { display:flex; flex-wrap:wrap; justify-content:center; gap:30px; margin:50px 0; }
+  .fe-box {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    padding:20px;
+    width:220px;
+    border-radius:15px;
+    text-align:center;
+    color:#fff;
+    box-shadow:0 6px 20px rgba(0,0,0,0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .fe-box:hover { transform: translateY(-10px); box-shadow:0 10px 30px rgba(0,0,0,0.5); }
+  .fe-box h6 { margin-top:15px; font-size:18px; font-weight:bold; }
+
+  /* ===== Login/Register Modal ===== */
+  .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:2000; }
+  .modal-content {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    padding:40px;
+    border-radius:20px;
+    width:350px;
+    text-align:center;
+    box-shadow:0 8px 32px rgba(0,0,0,0.3);
+    transform: scale(0.8);
+    opacity:0;
+    transition: all 0.4s ease;
+  }
+  .modal.show .modal-content { transform: scale(1); opacity:1; }
+
+  .modal h2 { color:#fff; margin-bottom:20px; }
+  .input-group { position:relative; margin-bottom:20px; text-align:left; }
+  .input-group input {
+    width:100%; padding:12px 0; background:transparent; border:none; border-bottom:2px solid #fff; color:#fff; outline:none; font-size:16px;
+  }
+  .input-group label {
+    position:absolute; top:12px; left:0; color:#fff; font-size:16px; pointer-events:none; transition:0.3s;
+  }
+  .input-group input:focus + label, .input-group input:not(:placeholder-shown) + label {
+    top:-10px; font-size:12px; color:#f04c23;
+  }
+  button { width:100%; padding:12px; margin-top:15px; border:none; border-radius:50px; font-weight:bold; cursor:pointer; transition:0.3s; }
+  .login-btn { background:#f04c23; color:#fff; }
+  .login-btn:hover { background:#d9431f; transform:scale(1.05); }
+  .register-btn { background:#222; color:#fff; }
+  .register-btn:hover { background:#555; transform:scale(1.05); }
+  .toggle-btn { background:none; border:none; color:#fff; cursor:pointer; margin-top:10px; font-size:14px; text-decoration:underline; }
+
+</style>
+</head>
+<body>
+
+  <section id="header">
+    <a href="index.html"><img src="logo.jpg" height="80" width="80" alt=""></a>
+    <ul id="navbar">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a class="active" href="about.html">About</a></li>
+      <li><a href="contact .html">Contact</a></li>
+      <li><a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
+    </ul>
+  </section>
+
+  <section id="about">
+    <h2>About Us</h2>
+    <p>Welcome to Clothify! We are a passionate team committed to bringing quality products at affordable prices. Our aim is to make online shopping simple, enjoyable, and reliable.</p>
+
+    <h3>Our Mission</h3>
+    <p>Deliver the best customer experience with trustworthy service and quality items.</p>
+
+    <h3>Our Values</h3>
+    <ul>
+      <li>✔️ Customer Satisfaction</li>
+      <li>✔️ Quality Products</li>
+      <li>✔️ Transparency</li>
+      <li>✔️ Affordable Prices</li>
+    </ul>
+  </section>
+
+  <section id="feature">
+    <div class="fe-box">
+      <i class="fas fa-shipping-fast fa-2x"></i>
+      <h6>Fast Delivery</h6>
+    </div>
+    <div class="fe-box">
+      <i class="fas fa-shield-alt fa-2x"></i>
+      <h6>Secure Payment</h6>
+    </div>
+    <div class="fe-box">
+      <i class="fas fa-headset fa-2x"></i>
+      <h6>24/7 Support</h6>
+    </div>
+  </section>
+
+  <!-- Login/Register Modal -->
+  <div class="modal" id="authModal">
+    <div class="modal-content">
+      <div id="login-form">
+        <h2>Login</h2>
+        <div class="input-group">
+          <input type="text" id="login-username" placeholder=" " required>
+          <label>Username</label>
+        </div>
+        <div class="input-group">
+          <input type="password" id="login-password" placeholder=" " required>
+          <label>Password</label>
+        </div>
+        <button class="login-btn" id="loginBtn">Login</button>
+        <button class="toggle-btn" id="toRegister">Register</button>
+      </div>
+      <div id="register-form" style="display:none;">
+        <h2>Register</h2>
+        <div class="input-group"><input type="text" id="fullname" placeholder=" "><label>Full Name</label></div>
+        <div class="input-group"><input type="email" id="email" placeholder=" "><label>Email</label></div>
+        <div class="input-group"><input type="text" id="reg-username" placeholder=" "><label>Username</label></div>
+        <div class="input-group"><input type="password" id="reg-password" placeholder=" "><label>Password</label></div>
+        <div class="input-group"><input type="password" id="confirmPassword" placeholder=" "><label>Confirm Password</label></div>
+        <button class="register-btn" id="registerBtn">Register</button>
+        <button class="toggle-btn" id="toLogin">Login</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+const loginForm = document.getElementById("login-form");
+const registerForm = document.getElementById("register-form");
+const authModal = document.getElementById("authModal");
+const toRegister = document.getElementById("toRegister");
+const toLogin = document.getElementById("toLogin");
+
+// Open modal (you can add a button to trigger this)
+function openAuthModal() { authModal.style.display = "flex"; authModal.classList.add("show"); }
+function closeAuthModal() { authModal.style.display = "none"; authModal.classList.remove("show"); }
+
+// Switch forms
+toRegister.addEventListener("click", () => { loginForm.style.display="none"; registerForm.style.display="block"; });
+toLogin.addEventListener("click", () => { registerForm.style.display="none"; loginForm.style.display="block"; });
+
+// Fade in about section
+window.addEventListener('load', () => {
+  document.getElementById('about').style.opacity = 1;
+});
+</script>
+
+</body>
+</html>

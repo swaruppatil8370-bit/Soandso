@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>So and So 🛍️</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<style>
+/* ===== Global ===== */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#f0f2f5;color:#333;overflow-x:hidden;}
+h2,h3,h4,h5{font-weight:600;}
+section{padding:50px 20px;position:relative;}
+
+/* ===== Header ===== */
+#header{display:flex;justify-content:space-between;align-items:center;padding:15px 40px;background:#222;color:white;box-shadow:0 3px 10px rgba(0,0,0,0.2);position:sticky;top:0;z-index:100;}
+#header h2{font-size:26px;}
+#navbar{list-style:none;display:flex;gap:20px;}
+#navbar li a{color:white;text-decoration:none;font-weight:bold;padding:8px 15px;border-radius:8px;transition:.3s;}
+#navbar li a:hover,#navbar li a.active{background:#f04c23;transform:scale(1.05);}
+#timeDisplay{color:#ffd700;font-weight:bold;font-size:16px;}
+
+/* ===== Category Tabs ===== */
+.category-tabs{display:flex;justify-content:center;flex-wrap:wrap;gap:15px;margin-bottom:30px;}
+.category-tabs button{padding:12px 25px;border:none;border-radius:20px;cursor:pointer;font-weight:600;transition:all 0.3s;background:linear-gradient(135deg,#fff,#eee);box-shadow:0 4px 15px rgba(0,0,0,0.1);}
+.category-tabs button.active,.category-tabs button:hover{background:#f04c23;color:white;transform:scale(1.1);}
+
+/* ===== Filter Bar ===== */
+.filter-bar{display:flex;justify-content:center;flex-wrap:wrap;gap:15px;margin-bottom:25px;}
+.filter-bar input,.filter-bar select{padding:12px 15px;border-radius:12px;border:1px solid #ccc;outline:none;transition:all 0.3s;font-weight:600;}
+.filter-bar input:focus,.filter-bar select:focus{border-color:#f04c23;box-shadow:0 0 8px rgba(240,76,35,0.4);}
+
+/* ===== Product Container ===== */
+.pro-container{display:flex;flex-wrap:wrap;justify-content:center;gap:25px;}
+.pro{background:white;border-radius:25px;padding:20px;width:230px;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,0.1);position:relative;transform:translateY(50px);opacity:0;transition:all 0.6s ease;}
+.pro:hover{transform:scale(1.1) translateY(-5px);box-shadow:0 15px 35px rgba(240,76,35,0.5);border:2px solid #f04c23;}
+.pro img{width:200px;height:200px;border-radius:20px;object-fit:cover;cursor:pointer;transition:transform 0.4s,filter 0.4s;}
+.pro img:hover{transform:scale(1.1) rotate(3deg);filter:brightness(1.1);}
+
+/* ===== Badges ===== */
+.badge{position:absolute;top:10px;left:10px;background:#f04c23;color:white;padding:6px 10px;font-size:12px;border-radius:12px;font-weight:700;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
+
+/* ===== Ratings ===== */
+.star{color:gold;font-size:14px;margin:0 1px;transition:transform 0.3s;cursor:pointer;}
+.star:hover{transform:scale(1.3);}
+
+/* ===== Buttons ===== */
+button.add-cart{background:linear-gradient(135deg,#f04c23,#d53f1f);border:none;color:white;padding:12px 15px;border-radius:15px;cursor:pointer;width:100%;margin-top:10px;font-weight:600;transition:all 0.3s;}
+button.add-cart:hover{transform:scale(1.05) rotate(-1deg);box-shadow:0 6px 20px rgba(213,63,31,0.6);}
+
+/* ===== Modal ===== */
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background: rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:2000;}
+.modal-content{background:white;padding:30px;border-radius:20px;width:420px;text-align:center;transform:scale(0.9);animation:scaleUp 0.4s forwards;position:relative;}
+@keyframes scaleUp{0%{transform:scale(0.9);}100%{transform:scale(1);}}
+.modal-content img{width:100%;border-radius:20px;transition:transform 0.3s;}
+.modal-content img:hover{transform:scale(1.05);}
+.close-btn{position:absolute;top:10px;right:15px;cursor:pointer;font-size:22px;color:#f04c23;transition:transform 0.3s;}
+.close-btn:hover{transform:rotate(90deg);}
+
+/* ===== Offer Slider ===== */
+.offer-slider{position:fixed;bottom:0;left:0;width:100%;background:#f04c23;color:white;overflow:hidden;white-space:nowrap;font-weight:bold;font-size:18px;padding:12px 0;box-shadow:0 -2px 8px rgba(0,0,0,0.2);z-index:1000;}
+.offer-track{display:inline-block;animation:slide 20s linear infinite;}
+.offer{display:inline-block;margin:0 50px;transition:transform 0.3s;}
+.offer:hover{transform:scale(1.1);}
+@keyframes slide{0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
+
+/* ===== Tooltip ===== */
+.pro[data-tooltip]:hover::after{content: attr(data-tooltip);position:absolute;top:-30px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.85);color:white;padding:6px 12px;border-radius:8px;font-size:12px;white-space:nowrap;animation:fadeInTooltip 0.3s forwards;}
+@keyframes fadeInTooltip{from{opacity:0;}to{opacity:1;}}
+
+/* ===== Section Gradients ===== */
+#men-section{background:linear-gradient(135deg,#c7ecee,#74b9ff);}
+#women-section{background:linear-gradient(135deg,#ffeaa7,#fab1a0);}
+#kids-section{background:linear-gradient(135deg,#a29bfe,#81ecec);}
+section h2{margin-bottom:20px;text-align:center;}
+
+/* ===== Responsive ===== */
+@media screen and (max-width:600px){.pro-container{flex-direction:column;align-items:center;}}
+</style>
+</head>
+<body>
+
+<section id="header">
+  <h2>🛒 So and So</h2>
+  <div id="timeDisplay"></div>
+  <ul id="navbar">
+    <li><a href="index.html">Home</a></li>
+    <li><a class="active" href="shop.html">Shop</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact .html">Contact</a></li>
+    <li><a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
+  </ul>
+</section>
+
+<!-- Category Tabs -->
+<div class="category-tabs">
+  <button class="active" onclick="showSection('all')">All</button>
+  <button onclick="showSection('men')">Men 👨</button>
+  <button onclick="showSection('women')">Women 👩</button>
+  <button onclick="showSection('kids')">Kids 🧒</button>
+</div>
+
+<!-- Filter Bar -->
+<div class="filter-bar">
+  <input type="text" id="searchBox" placeholder="Search products... 🔍">
+  <select id="categoryFilter"><option value="all">All Categories</option></select>
+  <select id="brandFilter"><option value="all">All Brands</option></select>
+</div>
+
+<!-- Sections -->
+<section id="men-section" class="category-section">
+  <h2>Men's Collection</h2>
+  <div class="pro-container" id="menProducts"></div>
+</section>
+
+<section id="women-section" class="category-section">
+  <h2>Women's Collection</h2>
+  <div class="pro-container" id="womenProducts"></div>
+</section>
+
+<section id="kids-section" class="category-section">
+  <h2>Kids' Collection</h2>
+  <div class="pro-container" id="kidsProducts"></div>
+</section>
+
+<!-- Modal -->
+<div class="modal" id="quickViewModal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    <img id="modalImage" src="">
+    <h3 id="modalName"></h3>
+    <p id="modalBrand"></p>
+    <h4 id="modalPrice"></h4>
+    <select id="modalSize"><option value="">Select Size</option><option>S</option><option>M</option><option>L</option><option>XL</option></select>
+    <button onclick="addModalCart()">Add to Cart 🛒</button>
+  </div>
+</div>
+
+<!-- Offer Slider -->
+<div class="offer-slider">
+  <div class="offer-track">
+    <div class="offer">🔥 Buy 2 Get 1 Free!</div>
+    <div class="offer">🎉 Free Shipping Above ₹999!</div>
+    <div class="offer">🛍️ Weekend Special Combo Offers!</div>
+  </div>
+</div>
+
+<script>
+// ===== Live Time =====
+function updateTime(){const now=new Date();document.getElementById("timeDisplay").innerText=now.toLocaleTimeString('en-IN',{hour12:true});}
+setInterval(updateTime,1000); updateTime();
+
+// ===== Products =====
+const products=[
+  {name:"Buy Roadster Pure Cotton Standard Casual Shirt - Shirts for Men",price:499,image:"1.jpg",category:"Shirt",brand:"Roadster",badge:"New",rating:5,type:"men"},
+   {name:"Buy Roadster Pure Cotton Standard Casual Shirt - Shirts for Men",price:499,image:"1.jpg",category:"Shirt",brand:"Roadster",badge:"New",rating:5,type:"men"},
+    {name:"Buy Roadster Pure Cotton Standard Casual Shirt - Shirts for Men",price:499,image:"1.jpg",category:"Shirt",brand:"Roadster",badge:"New",rating:5,type:"men"},
+	 {name:"Buy Roadster Pure Cotton Standard Casual Shirt - Shirts for Men",price:499,image:"1.jpg",category:"Shirt",brand:"Roadster",badge:"New",rating:5,type:"men"},
+	  {name:"Buy Roadster Pure Cotton Standard Casual Shirt - Shirts for Men",price:499,image:"1.jpg",category:"Shirt",brand:"Roadster",badge:"New",rating:5,type:"men"},
+  {name:"Buy Roadster Men Pure Cotton Solid Casual Shirt - Shirts for Men",price:1999,image:"2.jpg",category:"Jacket",brand:"HRX",badge:"Sale",rating:5,type:"men"},
+   {name:"Buy Roadster Men Pure Cotton Solid Casual Shirt - Shirts for Men",price:1999,image:"2.jpg",category:"Jacket",brand:"HRX",badge:"Sale",rating:5,type:"men"},
+    {name:"Buy Roadster Men Pure Cotton Solid Casual Shirt - Shirts for Men",price:1999,image:"2.jpg",category:"Jacket",brand:"HRX",badge:"Sale",rating:5,type:"men"},
+	 {name:"Buy Roadster Men Pure Cotton Solid Casual Shirt - Shirts for Men",price:1999,image:"2.jpg",category:"Jacket",brand:"HRX",badge:"Sale",rating:5,type:"men"},
+	  {name:"Buy Roadster Men Pure Cotton Solid Casual Shirt - Shirts for Men",price:1999,image:"2.jpg",category:"Jacket",brand:"HRX",badge:"Sale",rating:5,type:"men"},
+  {name:"Tie Shoulder Layered Ruched Cami Dress In Pink",price:999,image:"3.webp",category:"Hoodie",brand:"Zara",badge:"Hot",rating:4,type:"women"},
+   {name:"Tie Shoulder Layered Ruched Cami Dress In Pink",price:999,image:"3.webp",category:"Hoodie",brand:"Zara",badge:"Hot",rating:4,type:"women"},
+    {name:"Tie Shoulder Layered Ruched Cami Dress In Pink",price:999,image:"3.webp",category:"Hoodie",brand:"Zara",badge:"Hot",rating:4,type:"women"},
+	 {name:"Tie Shoulder Layered Ruched Cami Dress In Pink",price:999,image:"3.webp",category:"Hoodie",brand:"Zara",badge:"Hot",rating:4,type:"women"},
+	   {name:"Tie Shoulder Layered Ruched Cami Dress In Pink",price:999,image:"3.webp",category:"Hoodie",brand:"Zara",badge:"Hot",rating:4,type:"women"},
+  {name:"Wide High Studded jeans",price:1299,image:"4.avif",category:"Dress",brand:"H&M",badge:"New",rating:5,type:"women"},
+  {name:"Wide High Studded jeans",price:1299,image:"4.avif",category:"Dress",brand:"H&M",badge:"New",rating:5,type:"women"},
+  {name:"Wide High Studded jeans",price:1299,image:"4.avif",category:"Dress",brand:"H&M",badge:"New",rating:5,type:"women"},
+  {name:"Wide High Studded jeans",price:1299,image:"4.avif",category:"Dress",brand:"H&M",badge:"New",rating:5,type:"women"},
+  {name:"Wide High Studded jeans",price:1299,image:"4.avif",category:"Dress",brand:"H&M",badge:"New",rating:5,type:"women"},
+  {name:"Pine Kids Woven Full Sleeves Hoodie With Lining & Pockets - Blue",price:899,image:"5.webp",category:"Shoes",brand:"Adidas",badge:"Bestseller",rating:5,type:"kids"},
+  {name:"Pine Kids Woven Full Sleeves Hoodie With Lining & Pockets - Blue",price:899,image:"5.webp",category:"Shoes",brand:"Adidas",badge:"Bestseller",rating:5,type:"kids"},
+  {name:"Pine Kids Woven Full Sleeves Hoodie With Lining & Pockets - Blue",price:899,image:"5.webp",category:"Shoes",brand:"Adidas",badge:"Bestseller",rating:5,type:"kids"},
+  {name:"Pine Kids Woven Full Sleeves Hoodie With Lining & Pockets - Blue",price:899,image:"5.webp",category:"Shoes",brand:"Adidas",badge:"Bestseller",rating:5,type:"kids"},
+  {name:"Pine Kids Woven Full Sleeves Hoodie With Lining & Pockets - Blue",price:899,image:"5.webp",category:"Shoes",brand:"Adidas",badge:"Bestseller",rating:5,type:"kids"},
+  {name:"Pine Kids Cotton Knit Full Sleeves Hooded Sweatshirt with Text Print - Pink",price:699,image:"6.webp",category:"Hoodie",brand:"Puma",badge:"New",rating:4,type:"kids"},
+   {name:"Pine Kids Cotton Knit Full Sleeves Hooded Sweatshirt with Text Print - Pink",price:699,image:"6.webp",category:"Hoodie",brand:"Puma",badge:"New",rating:4,type:"kids"},
+    {name:"Pine Kids Cotton Knit Full Sleeves Hooded Sweatshirt with Text Print - Pink",price:699,image:"6.webp",category:"Hoodie",brand:"Puma",badge:"New",rating:4,type:"kids"},
+	 {name:"Pine Kids Cotton Knit Full Sleeves Hooded Sweatshirt with Text Print - Pink",price:699,image:"6.webp",category:"Hoodie",brand:"Puma",badge:"New",rating:4,type:"kids"},
+	  {name:"Pine Kids Cotton Knit Full Sleeves Hooded Sweatshirt with Text Print - Pink",price:699,image:"6.webp",category:"Hoodie",brand:"Puma",badge:"New",rating:4,type:"kids"}
+];
+
+// ===== Populate Filters =====
+const categorySet=new Set(products.map(p=>p.category));
+const brandSet=new Set(products.map(p=>p.brand));
+const categoryFilter=document.getElementById("categoryFilter");
+const brandFilter=document.getElementById("brandFilter");
+categorySet.forEach(c=>{let opt=document.createElement("option"); opt.value=c; opt.text=c; categoryFilter.appendChild(opt);});
+brandSet.forEach(b=>{let opt=document.createElement("option"); opt.value=b; opt.text=b; brandFilter.appendChild(opt);});
+
+// ===== Display Products =====
+function displayProducts(list){
+  const men=document.getElementById("menProducts"); const women=document.getElementById("womenProducts"); const kids=document.getElementById("kidsProducts");
+  men.innerHTML=""; women.innerHTML=""; kids.innerHTML="";
+  list.forEach((p,i)=>{
+    const html=`<div class="pro" data-tooltip="${p.badge?p.badge+'!':''}">
+      ${p.badge?`<div class="badge">${p.badge}</div>`:""}
+      <img src="${p.image}" alt="${p.name}" onclick="openModal(${i})">
+      <div class="des">
+        <span>${p.brand}</span>
+        <h5>${p.name}</h5>
+        <h4>₹${p.price}</h4>
+        <div class="star">${[...Array(5)].map((_,j)=>`<i class="fas fa-star ${j<p.rating?'star':''}"></i>`).join('')}</div>
+        <select class="size-select" id="size-${i}"><option value="">Select Size</option><option>S</option><option>M</option><option>L</option><option>XL</option></select>
+      </div>
+      <button class="add-cart" onclick="addToCart('${p.name}',${p.price},'${p.image}',${i})">Add to Cart 🛒</button>
+    </div>`;
+    if(p.type==="men") men.innerHTML+=html;
+    else if(p.type==="women") women.innerHTML+=html;
+    else if(p.type==="kids") kids.innerHTML+=html;
+  });
+  document.querySelectorAll(".pro").forEach((el,i)=>{setTimeout(()=>{el.style.opacity=1;el.style.transform='translateY(0)';},i*100);});
+}
+displayProducts(products);
+
+// ===== Filter Function =====
+const searchBox=document.getElementById("searchBox");
+searchBox.addEventListener("input",filterProducts);
+categoryFilter.addEventListener("change",filterProducts);
+brandFilter.addEventListener("change",filterProducts);
+
+function filterProducts(){
+  const searchText=searchBox.value.toLowerCase();
+  const category=categoryFilter.value;
+  const brand=brandFilter.value;
+  const filtered=products.filter(p=>
+    (p.name.toLowerCase().includes(searchText)) &&
+    (category==='all' || p.category===category) &&
+    (brand==='all' || p.brand===brand)
+  );
+  displayProducts(filtered);
+}
+
+// ===== Section Tabs =====
+function showSection(cat){
+  document.querySelectorAll('.category-section').forEach(sec=>sec.style.display='none');
+  if(cat==='all'){document.querySelectorAll('.category-section').forEach(sec=>sec.style.display='block');}
+  else{document.getElementById(cat+"-section").style.display='block';}
+  document.querySelectorAll('.category-tabs button').forEach(btn=>btn.classList.remove('active'));
+  document.querySelector(`.category-tabs button[onclick="showSection('${cat}')"]`).classList.add('active');
+}
+
+// ===== Cart & Modal =====
+let selectedProduct=null;
+function addToCart(name,price,image,index){const size=document.getElementById(`size-${index}`).value;if(!size){alert("Select size!");return;} const cart=JSON.parse(localStorage.getItem("cart"))||[]; const existing=cart.find(item=>item.name===name && item.size===size); if(existing) existing.quantity++; else cart.push({name,price,image,size,quantity:1}); localStorage.setItem("cart",JSON.stringify(cart)); alert(`${name} (${size}) added to cart! 🛒`);}
+function openModal(index){selectedProduct=products[index]; document.getElementById("modalImage").src=selectedProduct.image; document.getElementById("modalName").innerText=selectedProduct.name; document.getElementById("modalBrand").innerText=selectedProduct.brand; document.getElementById("modalPrice").innerText="₹"+selectedProduct.price; document.getElementById("modalSize").value=""; document.getElementById("quickViewModal").style.display="flex";}
+function closeModal(){document.getElementById("quickViewModal").style.display="none";}
+function addModalCart(){const size=document.getElementById("modalSize").value;if(!size){alert("Select size!");return;} const cart=JSON.parse(localStorage.getItem("cart"))||[]; const existing=cart.find(item=>item.name===selectedProduct.name && item.size===size); if(existing) existing.quantity++; else cart.push({name:selectedProduct.name,price:selectedProduct.price,image:selectedProduct.image,size,quantity:1}); localStorage.setItem("cart",JSON.stringify(cart)); alert(`${selectedProduct.name} (${size}) added to cart! 🛒`); closeModal();}
+</script>
+</body>
+</html>

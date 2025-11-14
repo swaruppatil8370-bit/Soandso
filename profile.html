@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile | Clothing Shop</title>
+<style>
+/* ===== Body & Background ===== */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(120deg,#f5f7fa,#c3cfe2);
+    overflow-x: hidden;
+}
+
+/* Floating background blobs */
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.6;
+}
+.blob1 { width: 300px; height: 300px; background: #ff6ec7; top: 10%; left: 5%; }
+.blob2 { width: 400px; height: 400px; background: #42a5f5; top: 40%; left: 70%; }
+.blob3 { width: 250px; height: 250px; background: #66bb6a; top: 70%; left: 30%; }
+
+/* ===== Header ===== */
+header {
+    text-align: center;
+    padding: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0,0,0,0.5);
+    background: linear-gradient(90deg,#ff6ec7,#42a5f5);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+/* ===== Glassmorphism Profile Card ===== */
+.profile-container {
+    max-width: 650px;
+    margin: 60px auto;
+    padding: 40px 30px;
+    border-radius: 25px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.3);
+    transform: translateY(30px);
+    animation: fadeInUp 1s forwards;
+}
+
+/* Animation */
+@keyframes fadeInUp { to { transform: translateY(0); } }
+
+/* Profile Picture */
+.profile-pic-container {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 25px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid rgba(255,255,255,0.7);
+    transition: transform 0.5s, box-shadow 0.5s;
+    cursor: pointer;
+}
+.profile-pic-container:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 0 40px #ff6ec7, 0 0 60px #42a5f5;
+}
+.profile-pic-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Inputs & Floating Labels */
+h2 {
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    margin-bottom: 35px;
+}
+
+label {
+    display: block;
+    margin: 20px 0 5px;
+    font-weight: bold;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+input::placeholder { color: transparent; }
+
+input:focus {
+    border-color: #42a5f5;
+    box-shadow: 0 0 15px #42a5f5;
+    outline: none;
+}
+input:focus + label,
+input:not(:placeholder-shown) + label {
+    color: #42a5f5;
+    transform: translateY(-22px);
+    font-size: 14px;
+}
+
+/* Buttons */
+.btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    margin-top: 18px;
+    border: none;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    color: #fff;
+}
+.btn-update {
+    background: linear-gradient(135deg,#42a5f5,#1e88e5);
+    box-shadow: 0 0 15px #42a5f5;
+}
+.btn-update:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px #42a5f5, 0 0 50px #1e88e5;
+}
+.btn-home {
+    background: linear-gradient(135deg,#ff6ec7,#d81b60);
+    box-shadow: 0 0 15px #ff6ec7;
+}
+.btn-home:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px #ff6ec7, 0 0 50px #d81b60;
+}
+
+/* ===== Floating Button ===== */
+.floating-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg,#ff6ec7,#42a5f5);
+    border-radius: 50%;
+    box-shadow: 0 0 20px #ff6ec7, 0 0 40px #42a5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    z-index: 1000;
+}
+.floating-btn:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 30px #ff6ec7, 0 0 60px #42a5f5;
+}
+.floating-btn i {
+    font-size: 24px;
+    color: #fff;
+}
+
+/* Responsive */
+@media screen and (max-width: 600px) {
+    .profile-container { margin: 30px 20px; padding: 30px; }
+    .floating-btn { width: 50px; height: 50px; }
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- Background Blobs -->
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+
+<header>Clothing Shop</header>
+
+<div class="profile-container">
+    <h2>My Profile</h2>
+
+    <div class="profile-pic-container" onclick="document.getElementById('picInput').click();">
+        <img id="profilePic" src="https://via.placeholder.com/150" alt="Profile Picture">
+    </div>
+    <input type="file" id="picInput" accept="image/*" style="display:none" onchange="previewPic(event)">
+
+    <form id="profileForm">
+        <input type="text" id="name" placeholder=" " />
+        <label for="name">Full Name</label>
+
+        <input type="email" id="email" placeholder=" " />
+        <label for="email">Email</label>
+
+        <input type="text" id="phone" placeholder=" " />
+        <label for="phone">Phone Number</label>
+
+        <input type="text" id="address" placeholder=" " />
+        <label for="address">Address</label>
+
+        <button type="button" class="btn btn-update" onclick="updateProfile()">Update Profile</button>
+        <button type="button" class="btn btn-home" onclick="goHome()">Back to Home</button>
+    </form>
+</div>
+
+<!-- Floating Button -->
+<div class="floating-btn" onclick="alert('Help/Chat clicked!')">
+    <i class="fas fa-comment-alt"></i>
+</div>
+
+<script>
+// Load profile from localStorage
+window.onload = function() {
+    const profile = JSON.parse(localStorage.getItem("userProfile")) || {};
+    document.getElementById('name').value = profile.name || '';
+    document.getElementById('email').value = profile.email || '';
+    document.getElementById('phone').value = profile.phone || '';
+    document.getElementById('address').value = profile.address || '';
+    if(profile.pic) document.getElementById('profilePic').src = profile.pic;
+}
+
+// Update profile and save to localStorage
+function updateProfile() {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const address = document.getElementById('address').value.trim();
+    const pic = document.getElementById('profilePic').src;
+
+    if (!name || !email || !phone || !address) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    const profile = { name, email, phone, address, pic };
+    localStorage.setItem("userProfile", JSON.stringify(profile));
+    alert("Profile updated successfully!");
+}
+
+// Profile picture preview
+function previewPic(event) {
+    const reader = new FileReader();
+    reader.onload = function(){
+        document.getElementById('profilePic').src = reader.result;
+    }
+    reader.readAsDataURL(event.target.files[0]);
+}
+
+function goHome() {
+    window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>

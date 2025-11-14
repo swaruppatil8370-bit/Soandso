@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clothing Shop Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* ===== Body & Background ===== */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin:0;
+  min-height:100vh;
+  background: linear-gradient(120deg,#f04c23,#ff7675,#6c5ce7,#00b894);
+  background-size: 400% 400%;
+  animation: gradientBG 20s ease infinite;
+  overflow-x: hidden;
+}
+@keyframes gradientBG {
+  0% {background-position:0% 50%;}
+  50% {background-position:100% 50%;}
+  100% {background-position:0% 50%;}
+}
+
+/* ===== Header ===== */
+header {
+  position:relative;
+  text-align:center;
+  color:#fff;
+  font-size:2rem;
+  font-weight:bold;
+  padding:20px 0;
+  text-shadow: 1px 1px 10px rgba(0,0,0,0.3);
+}
+
+/* Home Button */
+#homeBtn {
+  position:absolute;
+  right:20px;
+  top:50%;
+  transform:translateY(-50%);
+  padding:8px 16px;
+  background:#fff;
+  color:#ff7675;
+  border:none;
+  border-radius:10px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:all 0.3s;
+}
+#homeBtn:hover { background:#ff7675; color:#fff; }
+
+/* ===== Dashboard Container ===== */
+.dashboard {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  max-width:1200px;
+  margin:30px auto;
+  gap:20px;
+  padding:0 20px;
+}
+
+/* ===== Dashboard Cards ===== */
+.card {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(12px);
+  border-radius:20px;
+  width:250px;
+  height:150px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:1.2rem;
+  text-align:center;
+  box-shadow:0 8px 30px rgba(0,0,0,0.2);
+  transition: all 0.4s ease;
+  cursor:pointer;
+}
+.card:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow:0 12px 40px rgba(0,0,0,0.3);
+}
+
+/* ===== Floating Chat Button ===== */
+#chatBtn {
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  background:#ff7675;
+  color:#fff;
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:1.8rem;
+  cursor:pointer;
+  box-shadow:0 5px 20px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  z-index:1000;
+  animation: floatBtn 3s ease-in-out infinite;
+}
+#chatBtn:hover { transform: scale(1.2); box-shadow:0 8px 30px rgba(0,0,0,0.4);}
+@keyframes floatBtn {
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-10px);}
+}
+
+/* ===== Chat Window ===== */
+#chatWindow {
+  position:fixed;
+  bottom:100px;
+  right:30px;
+  width:300px;
+  max-height:400px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(15px);
+  border-radius:20px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.3);
+  overflow:hidden;
+  display:none;
+  flex-direction:column;
+  z-index:999;
+  animation: slideIn 0.4s forwards;
+}
+@keyframes slideIn { from {opacity:0; transform:translateY(50px);} to {opacity:1; transform:translateY(0);} }
+
+#chatHeader {
+  background:#ff7675;
+  color:#fff;
+  padding:15px;
+  font-weight:bold;
+  text-align:center;
+}
+#chatMessages {
+  flex:1;
+  padding:10px;
+  overflow-y:auto;
+  font-size:0.9rem;
+  color:#fff;
+}
+#chatInputContainer {
+  display:flex;
+  padding:10px;
+  background:rgba(255,255,255,0.1);
+}
+#chatInputContainer input {
+  flex:1;
+  padding:8px 12px;
+  border:none;
+  border-radius:15px;
+  outline:none;
+  margin-right:10px;
+  background:rgba(255,255,255,0.2);
+  color:#fff;
+}
+#chatInputContainer button {
+  padding:8px 12px;
+  border:none;
+  border-radius:15px;
+  background:#ff7675;
+  color:#fff;
+  cursor:pointer;
+  transition:all 0.3s;
+}
+#chatInputContainer button:hover { background:#f04c23; }
+
+/* ===== Responsive ===== */
+@media screen and (max-width:600px) {
+  .dashboard { flex-direction:column; align-items:center; }
+  #chatWindow { width:90%; right:5%; }
+  #homeBtn { position:static; transform:none; margin-top:10px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  Clothing Shop Dashboard
+  <button id="homeBtn" onclick="goHome()">Home</button>
+</header>
+
+<div class="dashboard">
+  <div class="card">Total Users<br>120</div>
+  <div class="card">Orders Today<br>25</div>
+  <div class="card">New Products<br>8</div>
+  <div class="card">Revenue<br>$1,240</div>
+</div>
+
+<!-- Floating Chat Button -->
+<div id="chatBtn"><i class="fas fa-comment"></i></div>
+
+<!-- Chat Window -->
+<div id="chatWindow">
+  <div id="chatHeader">Help & Chat</div>
+  <div id="chatMessages">Hi there! How can we help you today?</div>
+  <div id="chatInputContainer">
+    <input type="text" id="chatInput" placeholder="Type a message...">
+    <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+  </div>
+</div>
+
+<script>
+// Home button redirect
+function goHome() {
+  window.location.href = "index.html"; // Replace with your home page URL
+}
+
+// Floating chat button toggle
+const chatBtn = document.getElementById('chatBtn');
+const chatWindow = document.getElementById('chatWindow');
+chatBtn.addEventListener('click', ()=> {
+  if(chatWindow.style.display==='flex') chatWindow.style.display='none';
+  else chatWindow.style.display='flex';
+});
+
+// Simple chat send functionality
+const sendBtn = document.getElementById('sendBtn');
+const chatInput = document.getElementById('chatInput');
+const chatMessages = document.getElementById('chatMessages');
+
+sendBtn.addEventListener('click', ()=> {
+  const msg = chatInput.value.trim();
+  if(msg!==''){
+    chatMessages.innerHTML += `<div>User: ${msg}</div>`;
+    chatInput.value='';
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    setTimeout(()=>{ chatMessages.innerHTML += `<div>Support: Thanks for your message! We'll reply shortly.</div>`; chatMessages.scrollTop = chatMessages.scrollHeight; },1000);
+  }
+});
+</script>
+
+</body>
+</html>

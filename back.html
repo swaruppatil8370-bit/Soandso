@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Shopping Website with Login</title>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  body {
+    background: url('hero.jpg') no-repeat center center/cover;
+    background-attachment: fixed;
+  }
+
+  /* Hide main content until login */
+  #main-content {
+    display: none;
+  }
+
+  /* Header */
+  #header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background-color: #222;
+    color: white;
+  }
+
+  #navbar {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+  }
+
+  #navbar li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: 0.3s;
+  }
+
+  #navbar li a:hover,
+  #navbar li a.active {
+    background-color: #f04c23;
+    color: white;
+  }
+
+  /* Feature Section */
+  #feature {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 60px 0;
+  }
+
+  .fe-box {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+
+  .fe-box h6 {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+
+  /* Product Section */
+  #Product1 {
+    padding: 50px;
+    text-align: center;
+    background-color: #f9f9f9;
+  }
+
+  .pro-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+
+  .pro {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    width: 250px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: 0.3s;
+  }
+
+  .pro:hover {
+    transform: scale(1.05);
+  }
+
+  .pro img {
+    border-radius: 10px;
+  }
+
+  .des {
+    text-align: left;
+    margin-top: 10px;
+  }
+
+  .des span {
+    color: gray;
+    font-size: 14px;
+  }
+
+  .des .star {
+    color: gold;
+  }
+
+  .des h4 {
+    color: #f04c23;
+  }
+
+  /* Side Popup */
+  #side-popup {
+    position: fixed;
+    top: 20%;
+    right: -300px;
+    width: 280px;
+    padding: 20px;
+    background: #f04c23;
+    color: white;
+    border-radius: 8px 0 0 8px;
+    box-shadow: 0 0 15px rgba(240, 76, 35, 0.6);
+    transition: right 0.5s ease;
+    z-index: 9999;
+  }
+
+  #side-popup.visible {
+    right: 0;
+  }
+
+  #side-popup h3 {
+    margin: 0 0 10px 0;
+  }
+
+  #side-popup p {
+    margin: 0;
+  }
+
+  /* Login Popup */
+  #login-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+  }
+
+  #login-popup .login-box {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+  }
+
+  #login-popup input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+  }
+
+  #login-popup button {
+    padding: 10px 20px;
+    background: #f04c23;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  #login-popup button:hover {
+    background: #d9431f;
+  }
+</style>
+</head>
+
+<body>
+
+<!-- Login Popup -->
+<div id="login-popup">
+  <div class="login-box">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div id="main-content">
+  <!-- Header -->
+  <section id="header">
+    <a href="#"><img src="logo.jpg" class="logo" height="100" width="100" alt=""></a>
+    <div>
+      <ul id="navbar">
+        <li><a class="active" href="#">Home</a></li>
+        <li><a href="#">Shop</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+        <li>
+          <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
+              <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="feature">
+    <div class="fe-box">
+      <img src="shipping.jpg" height="100" width="100">
+      <h6>Free Shipping</h6>
+    </div> 
+    <div class="fe-box">
+      <img src="online.jpg" height="100" width="100">
+      <h6>Online Delivery</h6>
+    </div> 
+    <div class="fe-box">
+      <img src="money.jpg" height="100" width="100">
+      <h6>Save Money</h6>
+    </div> 
+    <div class="fe-box">
+      <img src="support.jpg" height="100" width="100">
+      <h6>24/7 Support</h6>
+    </div> 
+  </section>
+
+  <!-- Products -->
+  <section id="Product1">
+    <h2>Featured Products</h2>
+    <p>Summer Collection New Modern Design</p>
+    <div class="pro-container">
+      <div class="pro">
+        <img src="shirt.jpg" width="200" height="200">
+        <div class="des">
+          <span>Raymond</span>
+          <h5>Plain Shirt</h5>
+          <div class="star">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <h4>RS.360</h4>
+        </div>
+        <a href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
+            <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l1.25 5h8.22l1.25-5zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Side Popup -->
+  <div id="side-popup">
+    <h3>Special Offer!</h3>
+    <p>Check out our latest deals.</p>
+  </div>
+</div>
+
+<script>
+  const popup = document.getElementById('side-popup');
+  const loginPopup = document.getElementById('login-popup');
+  const mainContent = document.getElementById('main-content');
+
+  function showPopup() {
+    popup.classList.add('visible');
+    setTimeout(() => {
+      popup.classList.remove('visible');
+    }, 10000); // 10 seconds
+  }
+
+  // Repeat side popup every 5 minutes
+  setInterval(showPopup, 300000);
+
+  // Login function
+  function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    if(username && password) { // simple check
+      loginPopup.style.display = 'none';
+      mainContent.style.display = 'block';
+      showPopup(); // show side popup after login
+    } else {
+      alert('Please enter username and password');
+    }
+  }
+</script>
+</body>
+</html>

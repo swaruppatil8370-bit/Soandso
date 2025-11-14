@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Cart | Clothify</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f04c23, #ff7675, #6c5ce7);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    margin: 0;
+    min-height: 100vh;
+    color: #fff;
+  }
+
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  header {
+    background: rgba(0,0,0,0.7);
+    padding: 25px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  }
+
+  .cart-container {
+    max-width: 1000px;
+    margin: 50px auto;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(15px);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    animation: fadeIn 1s ease forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeIn {
+    0% { opacity:0; transform: translateY(30px);}
+    100% { opacity:1; transform: translateY(0);}
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    color: #fff;
+  }
+
+  th, td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    transition: transform 0.2s;
+  }
+
+  th {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(5px);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  td img {
+    width: 80px;
+    border-radius: 12px;
+    transition: transform 0.3s;
+  }
+
+  td img:hover {
+    transform: scale(1.2) rotate(5deg);
+  }
+
+  input[type="number"] {
+    width: 60px;
+    text-align: center;
+    padding: 5px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+  }
+
+  .total-section {
+    text-align: right;
+    margin-top: 25px;
+    font-size: 20px;
+  }
+
+  .total-section strong {
+    color: #ffd700;
+    font-size: 22px;
+  }
+
+  .btn, .back-btn, .remove-btn {
+    font-weight: 600;
+    transition: all 0.3s;
+  }
+
+  .btn {
+    background: #27b75e;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 16px;
+  }
+
+  .btn:hover {
+    background: #219d51;
+    transform: scale(1.1) rotate(-1deg);
+  }
+
+  .back-btn {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    background: #f04c23;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 50px;
+  }
+
+  .back-btn:hover {
+    background: #d53f1f;
+    transform: scale(1.05) rotate(1deg);
+  }
+
+  .remove-btn {
+    background: #f04c23;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 50px;
+    cursor: pointer;
+  }
+
+  .remove-btn:hover {
+    background: #d53f1f;
+    transform: scale(1.2);
+  }
+
+  .empty {
+    text-align: center;
+    padding: 40px 0;
+    color: rgba(255,255,255,0.7);
+    font-style: italic;
+    font-size: 18px;
+  }
+
+  /* Payment Modal */
+  #paymentModal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  #paymentModal .modal-content {
+    background: #222;
+    padding: 30px;
+    border-radius: 15px;
+    width: 400px;
+    text-align: center;
+    animation: modalFade 0.5s ease forwards;
+    color: #fff;
+  }
+
+  @keyframes modalFade {
+    0% { opacity: 0; transform: scale(0.7);}
+    100% { opacity: 1; transform: scale(1);}
+  }
+
+  .payment-method {
+    margin: 15px 0;
+    padding: 12px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .payment-method:hover {
+    background: #f04c23;
+    transform: scale(1.05);
+    color: #fff;
+  }
+
+  .close-modal {
+    margin-top: 20px;
+    cursor: pointer;
+    color: #f04c23;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+</style>
+</head>
+<body>
+
+<header>
+  <i class="fa fa-shopping-cart"></i> My <span>Cart 🛒</span>
+</header>
+
+<div class="cart-container">
+  <table id="cartTable">
+    <tr>
+      <th>Product</th>
+      <th>Name</th>
+      <th>Size</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Total</th>
+      <th>Remove</th>
+    </tr>
+  </table>
+
+  <div class="total-section">
+    <p>Estimated Total: <strong id="finalTotal">₹0</strong> 💰</p>
+    <button class="btn" onclick="openPaymentModal()">Pay Now 💳</button>
+    <br>
+    <a href="shop.html" class="back-btn"><i class="fa fa-arrow-left"></i> Continue Shopping 🛍️</a>
+  </div>
+</div>
+
+<!-- Payment Modal -->
+<div id="paymentModal">
+  <div class="modal-content">
+    <h2>Choose Payment Method 💳</h2>
+    <div class="payment-method" onclick="paySuccess('Google Pay')">Google Pay 🟢</div>
+    <div class="payment-method" onclick="paySuccess('UPI')">UPI 🔵</div>
+    <div class="payment-method" onclick="paySuccess('Credit/Debit Card')">Card 💳</div>
+    <div class="close-modal" onclick="closePaymentModal()">Cancel ❌</div>
+  </div>
+</div>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+const cartTable = document.getElementById("cartTable");
+const totalDisplay = document.getElementById("finalTotal");
+const modal = document.getElementById("paymentModal");
+
+function displayCart() {
+  cartTable.innerHTML = `
+    <tr>
+      <th>Product</th>
+      <th>Name</th>
+      <th>Size</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Total</th>
+      <th>Remove</th>
+    </tr>`;
+
+  if(cart.length === 0) {
+    const emptyRow = document.createElement("tr");
+    emptyRow.innerHTML = `<td colspan="7" class="empty">Your cart is empty! 😔</td>`;
+    cartTable.appendChild(emptyRow);
+    totalDisplay.textContent = "₹0 💰";
+    return;
+  }
+
+  cart.forEach((item, index) => {
+    const row = document.createElement("tr");
+    const total = item.price * item.quantity;
+    row.innerHTML = `
+      <td><img src="${item.image}" alt="${item.name}"></td>
+      <td>${item.name}</td>
+      <td>${item.size}</td>
+      <td>₹${item.price}</td>
+      <td><input type="number" min="1" value="${item.quantity}" id="qty-${index}"></td>
+      <td id="itemTotal-${index}">₹${total}</td>
+      <td><button class="remove-btn" onclick="removeItem(${index})"><i class="fa fa-trash"></i></button></td>
+    `;
+    cartTable.appendChild(row);
+
+    document.getElementById(`qty-${index}`).addEventListener("input", (e) => {
+      const newQty = parseInt(e.target.value);
+      const newTotal = newQty * item.price;
+      document.getElementById(`itemTotal-${index}`).textContent = "₹" + newTotal;
+      item.quantity = newQty;
+      localStorage.setItem("cart", JSON.stringify(cart));
+      calculateFinalTotal();
+    });
+  });
+
+  calculateFinalTotal();
+}
+
+function calculateFinalTotal() {
+  let sum = cart.reduce((acc,item)=> acc + item.price*item.quantity, 0);
+  totalDisplay.textContent = "₹"+sum+" 💰";
+}
+
+function removeItem(index) {
+  cart.splice(index, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  displayCart();
+}
+
+function openPaymentModal() {
+  if(cart.length === 0) return alert("Your cart is empty! 😔");
+  modal.style.display = "flex";
+}
+
+function closePaymentModal() {
+  modal.style.display = "none";
+}
+
+function paySuccess(method) {
+  alert(`Payment Successful via ${method} ✅`);
+  let history = JSON.parse(localStorage.getItem("userProfileHistory")) || [];
+  cart.forEach(item => item.date = new Date().toLocaleString());
+  history.push(...cart);
+  localStorage.setItem("userProfileHistory", JSON.stringify(history));
+  localStorage.removeItem("cart");
+  cart = [];
+  displayCart();
+  closePaymentModal();
+}
+
+displayCart();
+</script>
+
+</body>
+</html>

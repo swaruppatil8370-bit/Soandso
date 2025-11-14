@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Orders | Clothing Shop</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        background: #333;
+        color: white;
+        text-align: center;
+        padding: 20px;
+    }
+    .container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    table th, table td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
+    table th {
+        background: #f8f8f8;
+    }
+    tr:hover {
+        background: #f1f1f1;
+    }
+    button {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 5px;
+        background-color: #28a745;
+        color: white;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #218838;
+    }
+    .order-details {
+        margin-top: 20px;
+        padding: 20px;
+        background: #eef;
+        border-radius: 5px;
+        display: none;
+    }
+    .back-home {
+        display: block;
+        width: 150px;
+        margin: 20px auto 0;
+        text-align: center;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+    .back-home:hover {
+        background-color: #0056b3;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Clothing Shop</h1>
+</header>
+
+<div class="container">
+    <h2>My Orders</h2>
+
+    <table id="orderTable">
+        <thead>
+            <tr>
+                <th>Order Number</th>
+                <th>Date</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody> 
+            <!-- Orders will populate here -->
+        </tbody>
+    </table>
+
+    <div class="order-details" id="orderDetails">
+        <!-- Detailed order info will appear here -->
+    </div>
+
+    <a href="shop111.html" class="back-home">Back to Home</a>
+</div>
+
+<script>
+// Sample order data
+const orders = [
+    { 
+        orderNumber: "1", date: "2025-10-20", items: ["T-Shirt", "Jeans"], total: "Rs.450.00", status: "Delivered",
+        details: "Shipped via UPS, tracking #123456789"
+    },
+    { 
+        orderNumber: "2", date: "2025-10-25", items: ["Hoodie"], total: "Rs.370.00", status: "Shipped",
+        details: "Expected delivery: 2025-11-01"
+    },
+    { 
+        orderNumber: "3", date: "2025-10-28", items: ["Sneakers", "Cap"], total: "Rs.870.00", status: "Processing",
+        details: "Order is being prepared for shipment"
+    }
+];
+
+// Populate table with orders
+const tbody = document.querySelector("#orderTable tbody");
+
+orders.forEach(order => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+        <td>${order.orderNumber}</td>
+        <td>${order.date}</td>
+        <td>${order.items.join(", ")}</td>
+        <td>${order.total}</td>
+        <td>${order.status}</td>
+        <td><button onclick="viewDetails('${order.orderNumber}')">Track</button></td>
+    `;
+    tbody.appendChild(tr);
+});
+
+// Show detailed order info
+function viewDetails(orderNumber) {
+    const order = orders.find(o => o.orderNumber === orderNumber);
+    const detailsDiv = document.getElementById("orderDetails");
+
+    detailsDiv.style.display = "block";
+    detailsDiv.innerHTML = `
+        <h3>Order #${order.orderNumber} Details</h3>
+        <p><strong>Date:</strong> ${order.date}</p>
+        <p><strong>Items:</strong> ${order.items.join(", ")}</p>
+        <p><strong>Total:</strong> ${order.total}</p>
+        <p><strong>Status:</strong> ${order.status}</p>
+        <p><strong>Details:</strong> ${order.details}</p>
+    `;
+}
+</script>
+
+</body>
+</html>

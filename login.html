@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login & Register | Clothing Shop</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* ===== Body & Animated Gradient + Parallax ===== */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  background: linear-gradient(120deg,#f04c23,#ff7675,#6c5ce7,#00b894);
+  background-size: 400% 400%;
+  animation: gradientBG 20s ease infinite;
+}
+@keyframes gradientBG {
+  0% {background-position:0% 50%;}
+  50% {background-position:100% 50%;}
+  100% {background-position:0% 50%;}
+}
+
+/* ===== Floating Particles ===== */
+.particle {
+  position:absolute;
+  border-radius:50%;
+  opacity:0.6;
+  animation: float 20s linear infinite;
+  pointer-events:none;
+}
+@keyframes float {
+  0% {transform: translateY(0px) translateX(0px);}
+  50% {transform: translateY(-50px) translateX(30px);}
+  100% {transform: translateY(0px) translateX(0px);}
+}
+
+/* ===== Background Product Images (Parallax) ===== */
+.bg-image {
+  position:absolute;
+  width:200px;
+  height:300px;
+  opacity:0.05;
+  transform: translateY(0px);
+  animation: floatBg 25s linear infinite;
+}
+@keyframes floatBg {
+  0% {transform: translateY(0px);}
+  50% {transform: translateY(-40px);}
+  100% {transform: translateY(0px);}
+}
+
+/* ===== Glassmorphic Container ===== */
+.container {
+  position: relative;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(15px);
+  border-radius: 25px;
+  box-shadow: 0 15px 50px rgba(0,0,0,0.25);
+  width: 380px;
+  padding: 40px 30px;
+  text-align:center;
+  color:#fff;
+  overflow:hidden;
+  z-index:10;
+}
+
+/* ===== Heading ===== */
+h2 {
+  font-size:28px;
+  margin-bottom:30px;
+  text-shadow:0 2px 10px rgba(0,0,0,0.4);
+}
+
+/* ===== Input Groups ===== */
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+  text-align: left;
+}
+.input-group input {
+  width:100%;
+  padding:14px 0 14px 0;
+  border:none;
+  border-bottom:2px solid #fff;
+  background: transparent;
+  color:#fff;
+  font-size:16px;
+  outline:none;
+  transition: all 0.3s;
+}
+.input-group input:focus { border-color:#ff7675; box-shadow:0 0 8px #ff7675; }
+.input-group label {
+  position:absolute;
+  top:14px;
+  left:0;
+  color:#fff;
+  font-size:16px;
+  pointer-events:none;
+  transition:0.3s;
+}
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+  top:-10px;
+  font-size:12px;
+  color:#ff7675;
+}
+
+/* ===== Buttons ===== */
+button {
+  width:100%;
+  padding:14px;
+  margin-top:15px;
+  border:none;
+  border-radius:50px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  transition: all 0.3s ease;
+}
+.login-btn {
+  background: linear-gradient(135deg,#f04c23,#ff7675);
+  box-shadow:0 5px 20px rgba(240,76,35,0.6);
+  color:#fff;
+}
+.login-btn:hover { transform: scale(1.05); box-shadow:0 5px 30px rgba(240,76,35,0.9); }
+.register-btn {
+  background: linear-gradient(135deg,#6c5ce7,#00b894);
+  box-shadow:0 5px 20px rgba(108,92,231,0.6);
+  color:#fff;
+}
+.register-btn:hover { transform: scale(1.05); box-shadow:0 5px 30px rgba(108,92,231,0.9); }
+
+/* ===== Social Buttons ===== */
+.social-btn {
+  width:48%;
+  padding:12px;
+  margin:10px 1%;
+  border:none;
+  border-radius:50px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  transition: all 0.3s ease;
+  color:#fff;
+}
+.social-google { background:#db4437; }
+.social-google:hover { transform:scale(1.05); box-shadow:0 0 15px #db4437; }
+.social-facebook { background:#4267B2; }
+.social-facebook:hover { transform:scale(1.05); box-shadow:0 0 15px #4267B2; }
+
+/* ===== Toggle Link ===== */
+.toggle-btn { background:none; border:none; color:#fff; cursor:pointer; margin-top:15px; font-size:14px; text-decoration:underline; }
+
+/* ===== Form Transition ===== */
+#login-form, #register-form { transition: all 0.6s ease; }
+#register-form { position:absolute; top:0; left:0; width:100%; opacity:0; pointer-events:none; }
+
+/* ===== Popup ===== */
+#popup {
+  display:none; position:fixed; top:20%; left:50%;
+  transform:translateX(-50%);
+  background:#4CAF50; color:#fff; padding:20px 30px; border-radius:15px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.3); font-size:16px; z-index:1000; opacity:0;
+  animation: fadeInPopup 0.5s forwards;
+}
+@keyframes fadeInPopup { 0%{opacity:0; transform:translate(-50%,-20px);} 100%{opacity:1; transform:translate(-50%,0);} }
+
+/* ===== Responsive ===== */
+@media screen and (max-width: 400px) { .container{width:90%; padding:30px 20px;} }
+</style>
+</head>
+<body>
+
+<!-- Floating Particles -->
+<div class="particle" style="top:20%; left:10%; width:8px; height:8px;"></div>
+<div class="particle" style="top:70%; left:30%; width:12px; height:12px;"></div>
+<div class="particle" style="top:40%; left:80%; width:10px; height:10px;"></div>
+<div class="particle" style="top:60%; left:50%; width:6px; height:6px;"></div>
+
+<!-- Background Product Images -->
+<img src="https://via.placeholder.com/200x300/ff7675/fff?text=Product1" class="bg-image" style="top:10%; left:5%;">
+<img src="https://via.placeholder.com/200x300/6c5ce7/fff?text=Product2" class="bg-image" style="top:50%; left:70%;">
+<img src="https://via.placeholder.com/200x300/00b894/fff?text=Product3" class="bg-image" style="top:30%; left:40%;">
+
+<div class="container" id="form-container">
+  <!-- Login Form -->
+  <div id="login-form">
+    <h2>Login</h2>
+    <div class="input-group"><input type="text" id="login-username" placeholder=" " required><label>Username</label></div>
+    <div class="input-group"><input type="password" id="login-password" placeholder=" " required><label>Password</label></div>
+    <button class="login-btn" id="loginBtn">Login</button>
+    <div>
+      <button class="social-btn social-google"><i class="fab fa-google"></i> Google</button>
+      <button class="social-btn social-facebook"><i class="fab fa-facebook-f"></i> Facebook</button>
+    </div>
+    <button class="toggle-btn" id="toRegister">Don't have an account? Register</button>
+  </div>
+
+  <!-- Register Form -->
+  <div id="register-form">
+    <h2>Register</h2>
+    <div class="input-group"><input type="text" id="fullname" placeholder=" " required><label>Full Name</label></div>
+    <div class="input-group"><input type="email" id="email" placeholder=" " required><label>Email</label></div>
+    <div class="input-group"><input type="text" id="reg-username" placeholder=" " required><label>Username</label></div>
+    <div class="input-group"><input type="password" id="reg-password" placeholder=" " required><label>Password</label></div>
+    <div class="input-group"><input type="password" id="confirmPassword" placeholder=" " required><label>Confirm Password</label></div>
+    <button class="register-btn" id="registerBtn">Register</button>
+    <button class="toggle-btn" id="toLogin">Already have an account? Login</button>
+  </div>
+</div>
+
+<div id="popup">Success!</div>
+
+<script>
+// Form switch
+const loginForm = document.getElementById("login-form");
+const registerForm = document.getElementById("register-form");
+document.getElementById("toRegister").addEventListener("click", () => {
+  loginForm.style.opacity=0; loginForm.style.pointerEvents="none";
+  registerForm.style.opacity=1; registerForm.style.pointerEvents="auto";
+});
+document.getElementById("toLogin").addEventListener("click", () => {
+  registerForm.style.opacity=0; registerForm.style.pointerEvents="none";
+  loginForm.style.opacity=1; loginForm.style.pointerEvents="auto";
+});
+
+// Register
+document.getElementById("registerBtn").addEventListener("click", ()=>{
+  const fullname = document.getElementById("fullname").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const username = document.getElementById("reg-username").value.trim();
+  const password = document.getElementById("reg-password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+  if(!fullname||!email||!username||!password||!confirmPassword){alert("All fields are required!"); return;}
+  if(password!==confirmPassword){alert("Passwords do not match!"); return;}
+  let users = JSON.parse(localStorage.getItem("users") || "[]");
+  if(users.find(u=>u.username===username)){alert("Username exists!"); return;}
+  users.push({fullname,email,username,password});
+  localStorage.setItem("users",JSON.stringify(users));
+  const popup = document.getElementById("popup");
+  popup.innerText="Registration Successful!";
+  popup.style.display="block";
+  setTimeout(()=>{popup.style.display="none"; document.getElementById("toLogin").click();},2000);
+});
+
+// Login
+document.getElementById("loginBtn").addEventListener("click", ()=>{
+  const username = document.getElementById("login-username").value.trim();
+  const password = document.getElementById("login-password").value;
+  if(!username||!password){alert("Please fill all fields!"); return;}
+  const users = JSON.parse(localStorage.getItem("users") || "[]");
+  const user = users.find(u=>u.username===username && u.password===password);
+  const popup = document.getElementById("popup");
+  if(user){popup.innerText="Login Successful!"; popup.style.display="block"; setTimeout(()=>{popup.style.display="none"; window.location.href="index.html";},2000);}
+  else{alert("Invalid username or password!");}
+});
+</script>
+</body>
+</html>

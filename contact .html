@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us | So and So</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<style>
+/* ===== Global Styles ===== */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg,#f0f2f5,#ffffff);
+    color: #333;
+    overflow-x: hidden;
+}
+h1,h2 { margin:0; }
+a { text-decoration:none; }
+
+/* ===== Header ===== */
+header {
+    background: #222;
+    color: #fff;
+    text-align: center;
+    padding: 25px 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    animation: fadeInDown 1s ease;
+}
+header h1 { font-size: 28px; letter-spacing: 1px; }
+
+/* ===== Container ===== */
+.contact-container {
+    max-width: 900px;
+    margin: 50px auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 20px;
+    animation: fadeIn 1s ease;
+}
+
+/* ===== Contact Cards ===== */
+.contact-form, .contact-info {
+    flex: 1 1 400px;
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.contact-form:hover, .contact-info:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(240,76,35,0.15);
+}
+.contact-form h2, .contact-info h2 {
+    color: #f04c23;
+    margin-bottom: 25px;
+    font-size: 24px;
+    text-align: center;
+}
+
+/* ===== Form Elements ===== */
+.contact-form label {
+    display: block;
+    margin: 12px 0 6px;
+    font-weight: 600;
+    font-size: 15px;
+}
+.contact-form input, .contact-form textarea {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+    transition: 0.3s;
+}
+.contact-form input:focus, .contact-form textarea:focus {
+    border-color: #f04c23;
+    box-shadow: 0 0 8px rgba(240,76,35,0.4);
+}
+.contact-form textarea { min-height: 140px; }
+
+/* ===== Button ===== */
+.contact-form button {
+    background: linear-gradient(135deg,#f04c23,#d53f1f);
+    color: white;
+    border: none;
+    padding: 14px 0;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+.contact-form button:hover {
+    transform: scale(1.05) rotate(-1deg);
+    box-shadow: 0 8px 20px rgba(213,63,31,0.5);
+}
+
+/* ===== Contact Info ===== */
+.contact-info p {
+    margin: 15px 0;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: color 0.3s, transform 0.3s;
+}
+.contact-info p:hover { color: #f04c23; transform: translateX(5px); }
+.contact-info i { color: #f04c23; font-size: 18px; }
+
+/* ===== Buttons ===== */
+.button-group {
+    margin-top: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.direction-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #28a745;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.direction-btn:hover {
+    background: #218838;
+    transform: scale(1.05) rotate(-1deg);
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn { 0%{opacity:0;} 100%{opacity:1;} }
+@keyframes fadeInDown { 0%{opacity:0; transform:translateY(-20px);} 100%{opacity:1; transform:translateY(0);} }
+
+/* ===== Responsive ===== */
+@media screen and (max-width: 768px) {
+    .contact-container { flex-direction: column; margin: 30px 20px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>🛒 Clothify</h1>
+</header>
+
+<section class="contact-container">
+
+    <!-- Contact Form -->
+    <div class="contact-form">
+        <h2>💌 Get in Touch</h2>
+        <form id="contactForm">
+            <label for="name">👤 Full Name</label>
+            <input type="text" id="name" placeholder="Your Full Name">
+
+            <label for="email">📧 Email Address</label>
+            <input type="email" id="email" placeholder="Your Email">
+
+            <label for="phone">📞 Phone Number</label>
+            <input type="text" id="phone" placeholder="Your Phone Number">
+
+            <label for="message">✉️ Message</label>
+            <textarea id="message" placeholder="Write your message here..."></textarea>
+
+            <button type="button" onclick="submitContact()">Send Message</button>
+        </form>
+    </div>
+
+    <!-- Contact Info -->
+    <div class="contact-info">
+        <h2>📍 Contact Info</h2>
+        <p><i class="fa fa-map-marker-alt"></i> Warna bank near,ichalkaranji,kolhapur</p>
+        <p><i class="fa fa-phone"></i> +91 9970386811</p>
+        <p><i class="fa fa-envelope"></i> support@clothify.com</p>
+        <p><i class="fa fa-clock"></i> Mon - Sat: 9:00 AM - 6:00 PM</p>
+
+        <!-- Buttons -->
+        <div class="button-group">
+            <a class="direction-btn" href="https://maps.app.goo.gl/hL3DHwdTi5XummSLA" target="_blank">
+                <i class="fa fa-directions"></i> Get Directions
+            </a>
+            <a class="direction-btn" href="index.html">
+                <i class="fa fa-home"></i> Back to Home
+            </a>
+        </div>
+    </div>
+
+</section>
+
+<script>
+function submitContact() {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    if(!name || !email || !phone || !message){
+        alert("⚠️ Please fill in all fields!");
+        return;
+    }
+
+    let messages = JSON.parse(localStorage.getItem("contactMessages")) || [];
+    messages.push({name, email, phone, message, date: new Date().toLocaleString()});
+    localStorage.setItem("contactMessages", JSON.stringify(messages));
+
+    alert("✅ Thank you! Your message has been sent.");
+    document.getElementById('contactForm').reset();
+}
+</script>
+
+</body>
+</html>
